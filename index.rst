@@ -14,21 +14,9 @@ Introduction
 ============
 
 The AuxTel CCD has been successfully operated at Cerro Pachon and is
-taking astronomical spectra and images. During start-up, the WREB board
-which drives the CCD had an issue where it sometimes powered up in a
-state where the parallel clocks were disabled. In this case the CCD does
-not function. A workaround was developed which is documented here. We
-believe this workaround is no longer needed, since a change to the
-power-up sequence appears to have fixed this problem. However, until we
-are sure that the problem is fixed, it is a good idea to check that the
-board is operating properly as documented here. This document details
+taking astronomical spectra and images.  This document details
 the power-up and power-down sequences to make sure the CCD operates.
-Note that once the WREB Seq. Power has been powered up in the “good”
-state, it remains in the good state as long as power is applied.
-Therefore, ideally we should try to keep the WREB board SEQ Power
-powered up at all times. However, if the Seq Power is powered down for
-any reason, this document describes how to get it operating again. This
-assumes that you are operating within the LSST-WAP network at Cerro
+This assumes that you are operating within the LSST-WAP network at Cerro
 Pachon or in La Serena, although this can be run from outside using VPN.
 
 Getting Started
@@ -68,7 +56,7 @@ have been following is to open three screens, as follows:
 Your screen should now look something like this, and you are ready to
 begin powering up the WREB and the CCD.
 
-|image|
+image:: ./_static/Screens.png
 
 Powering up from a completely cold state
 ========================================
@@ -149,93 +137,3 @@ The system should now be completely off.
 
    \clearpage
 
-Note: The sections below should not be needed.
-
-Powering up if the WREB board PClk0 test has failed
-===================================================
-
-Assuming you are powering up the CCD from a completely cold state where
-all power is off, run the following commands:
-
--  In the ccs-console ats-power tab:
-
-   -  Turn Fan on
-
-   -  Turn OTM on
-
-   -  Turn Seq. Power on
-
-   -  Turn DPHI on.
-
--  In atsccs1 ccs-shell run: ats-wreb/WREB powerCCDsOn
-
-The CCD is now powered up, but you need to determine whether or not it
-has powered up in the state where the parallel clocks are enabled. To
-check this, look at the PClk0 entry in the ats-wreb Monitor screen. It
-should be equal to either PClkU or PClkL, depending whether the parallel
-clock is high or low. You can check this by doing the following:
-
--  In atsccs1 ccs-shell run: ats-wreb/WREB setRegister 0x100000 [0x2d4]
-
--  When this is done, PClk0 should be equal to PClkL.
-
--  In atsccs1 ccs-shell run: ats-wreb/WREB setRegister 0x100000 [0x3d4]
-
--  When this is done, PClk0 should be equal to PClkU.
-
-If this test passes, the WREB has powered up successfully and you can
-continue with the power up. If PClk0 has any other value, (typically
-0.01V), the the WREB power up has failed and you need to power cycle it
-again.
-
-If the WREB has powered up successfully
----------------------------------------
-
-In this case, run the following steps.
-
--  In atsccs1 ccs-shell run: ats-wreb/WREB powerCCDsOff
-
--  In the ccs-console ats-power tab, Turn DPHI off.
-
--  In the atshcu1 screen, run ./atsInit.py
-
-This command should run, and the CCD should power up successfully. Check
-that PClk0 is equal to PClkU. Then:
-
--  In atsccs1 ccs-shell run: ats-wreb/WREB setBackBias true
-
--  In the ccs-console ats-power tab, Turn HV Bias On.
-
-The CCD should now be powered up and ready to run.
-
-If the WREB has not powered up successfully
--------------------------------------------
-
-If the WREB failed to power up successfully, you need to power cycle the
-Seq Power and try again, checking if the WREB has powered up
-successfully. You need to repeat the power cycles until the WREB powers
-up successfully. The sequence in this case, starting from the point
-where the WREB failed to power up successfully is:
-
--  In atsccs1 ccs-shell run: ats-wreb/WREB powerCCDsOff
-
--  In the ccs-console ats-power tab:
-
-   -  Turn DPHI off.
-
-   -  Turn Seq. Power off
-
-   -  Turn Seq. Power on
-
-   -  Turn DPHI on.
-
--  In atsccs1 ccs-shell run: ats-wreb/WREB powerCCDsOn
-
--  Check again whether the WREB has powered up successfully.
-
-Continue this sequence until the WREB test passes, at which point you
-continue with the “If the WREB has powered up successfully” section
-above.
-
-.. |image| image:: Screens.png
-   :width: 99.0%
