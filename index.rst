@@ -126,7 +126,7 @@ Powering down completely
 
 If, for some reason, you want to completely power down the entire
 camera, do the following steps after completing the above section.
-Note that if you then want to power upafter this, you need to follow the
+Note that if you then want to power up after this, you need to follow the
 “Powering up from a completely cold state” section above.
 
 -  In the atshcu1 screen, run ./atsOff.py
