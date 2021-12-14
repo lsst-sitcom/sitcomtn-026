@@ -56,7 +56,7 @@ have been following is to open three screens, as follows:
 Your screen should now look something like this, and you are ready to
 begin powering up the WREB and the CCD.
 
-image:: ./_static/Screens.png
+.. image:: ./_static/Screens.png
 
 Powering up from a completely cold state
 ========================================
@@ -75,11 +75,10 @@ all power is off, run the following commands:
    -  In the atshcu1 screen, run ./atsInit.py
 
 This command should run, and the CCD should power up successfully. Check
-that PClk0 is equal to PClkU. If it is not, you will need to move to the
-section below titled “Powering up if the WREB board PClk0 test has
-failed” Then:
+that PClk0 is equal to PClkU. If it is not, stop and review the situation.  Suggested
+resources are Tony Johnson, Patrick Ingraham or Craig Lage.  Then:
 
--  In atsccs1 ccs-shell run: ats-wreb/WREB setBackBias true
+-  In atsccs1 ccs-shell run: R00/RebW setBackBias true
 
 -  In the ccs-console ats-power tab, Turn HV Bias On.
 
@@ -96,9 +95,10 @@ required to power up the CCD is the following:
 -  In the atshcu1 screen, run ./atsInit.py
 
 This command should run, and the CCD should power up successfully. Check
-that PClk0 is equal to PClkU. Then:
+that PClk0 is equal to PClkU.  If it is not, stop and review the situation.  Suggested
+resources are Tony Johnson, Patrick Ingraham or Craig Lage.  Then:
 
--  In atsccs1 ccs-shell run: ats-wreb/WREB setBackBias true
+-  In atsccs1 ccs-shell run: R00/RebW setBackBias true
 
 -  In the ccs-console ats-power tab, Turn HV Bias On.
 
@@ -111,11 +111,11 @@ Powering down the CCD, leaving Seq Power on
 To power down the CCD, leaving the WREB Seq Power on, do the following
 steps. This should be the normal sequence for powering down the CCD:
 
--  In atsccs1 ccs-shell run: ats-wreb/WREB setBackBias false
+-  In atsccs1 ccs-shell run: R00/RebW setBackBias false
 
 -  In the ccs-console ats-power tab, Turn HV Bias Off.
 
--  In atsccs1 ccs-shell run: ats-wreb/WREB powerCCDsOff
+-  In atsccs1 ccs-shell run: R00/RebW powerCCDsOff
 
 -  In the ccs-console ats-power tab, Turn DPHI Off.
 
@@ -125,9 +125,9 @@ Powering down completely
 ========================
 
 If, for some reason, you want to completely power down the entire
-camera, do the following steps. Note that if you then want to power up
-after this, you need to follow the “Powering up from a completely cold
-state” section above.
+camera, do the following steps after completing the above section.
+Note that if you then want to power upafter this, you need to follow the
+“Powering up from a completely cold state” section above.
 
 -  In the atshcu1 screen, run ./atsOff.py
 
