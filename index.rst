@@ -24,7 +24,7 @@ Getting Started
 
 The first step is to make sure the CCD power supplies are on and set to the correct voltages.
 The necessary power supplies are shown in this image.  At a minimum, the three CCD power supplies, the
-back-bias supply, and the atshcu1 computer all need to be powered on.
+back-bias supply, and the auxtel-hcu01 computer all need to be powered on.
 
 .. image:: ./_static/AuxTel_Power_Rack.jpg
 
@@ -52,18 +52,20 @@ Setting up the necessary connections
 There are several options for controlling the CCD, but the procedure I
 have been following is to open three screens, as follows:
 
--  Login to atsccs1, using ssh -X -Y yourname@atsccs1.cp.lsst.org
-
--  On this machine, cd to /lsst/ccs/prod/bin
+-  Login to auxtel-mcm, using ssh -X -Y yourname@auxtel-mcm.cp.lsst.org
 
 -  Then launch the ccs-console, using ./ccs-console&
+
+- If, like me, you have an M1 Mac, then the ccs-console will launch with a black screen.
+  You can fix this by launching ccs-console with the following options:
+  ccs-console -Dsun.java2d.xrender=false -Dsun.java2d.pmoffscreen=false&
 
 -  The ccs-console should then appear in an X-window. You will need to
    launch the ats-power tab in the CCS_Subsystems pull down menu.
 
--  Then launch the ccs-shell, using ./ccs-shell
+-  Then launch the ccs-shell, using ccs-shell
 
--  Login to atshcu1, using ssh yourname@atshcu1.cp.lsst.org
+-  Login to auxtel-hcu01, using ssh yourname@auxtel-hcu01.cp.lsst.org
 
 -  On this machine, cd to /home/ccs/scripts
 
@@ -71,7 +73,7 @@ have been following is to open three screens, as follows:
    include /lsst/ccs/prod/bin in your path; (e.g. export ). You might
    want to add this to your .bashrc file. These scripts should run from
    your account. If they don’t, you will need to either logout and log
-   back in as ccs@atshcu1, or if you have sudo privileges, transfer to
+   back in as ccs@auxtel-hcu01, or if you have sudo privileges, transfer to
    the ccs login using the command: sudo su ccs.
 
 Your screen should now look something like this, and you are ready to
@@ -83,7 +85,7 @@ begin powering up the WREB and the CCD.
 A closer view of the ats-power screen is shown here:
 
 
-.. image:: ./_static/CCS-console_20220119.jpeg
+.. image:: ./_static/CCS-console_20220914.jpeg
 	   
 Powering up from a completely cold state
 ========================================
@@ -101,24 +103,20 @@ all power is off, run the following commands:
 
 It is possible to take an image at this point, even though the CCD is not powered up yet.
 What this image should look like is shown in the next section.
-      
-   -  In the atshcu1 screen, run ./atsInit.py
 
-This command should run, and the CCD should power up successfully. Check
-that PClk0 is equal to PClkU. If it is not, stop and review the situation.  Suggested
-resources are Tony Johnson, Patrick Ingraham or Craig Lage.  Then:
+-  In the auxtel-hcu01 screen, run ./atsInit.py
+
+This command should run, and the CCD should power up successfully. 
 
 It is suggested to take some images at this point to make sure everything is connected,
 before turning on the HV bias.  Representative images are in the next section.
 
-
 Once you are satisfied with the images, you can turn on the HV bias.  This should not be
 done unless the CCD is cold.  To turn on the HV bias, run the following steps:
 
-
--  In atsccs1 ccs-shell run: R00/RebW setBackBias true
-
 -  In the ccs-console ats-power tab, Turn HV Bias On.
+   
+-  In auxtel-mcm ccs-shell run: ats-fp/R00/RebW setBackBias true
 
 Note that both of these steps must be performed to turn on the HV bias.
 The CCD should now be powered up and ready to run.
@@ -150,15 +148,13 @@ If the Seq Power is already on, then we know the WREB is still in the
 state where the parallel clocks are enabled. In this case, all that is
 required to power up the CCD is the following:
 
--  In the atshcu1 screen, run ./atsInit.py
+-  In the auxtel-hcu01 screen, run ./atsInit.py
 
-This command should run, and the CCD should power up successfully. Check
-that PClk0 is equal to PClkU.  If it is not, stop and review the situation.  Suggested
-resources are Tony Johnson, Patrick Ingraham or Craig Lage.  Then:
-
--  In atsccs1 ccs-shell run: R00/RebW setBackBias true
+This command should run, and the CCD should power up successfully. 
 
 -  In the ccs-console ats-power tab, Turn HV Bias On.
+
+-  In auxtel-mcm ccs-shell run: ats-fp/R00/RebW setBackBias true
 
 Note that both of these steps must be performed to turn on the HV bias.
 The CCD should now be powered up and ready to run.
@@ -169,11 +165,11 @@ Powering down the CCD, leaving Seq Power on
 To power down the CCD, leaving the WREB Seq Power on, do the following
 steps. This should be the normal sequence for powering down the CCD:
 
--  In atsccs1 ccs-shell run: R00/RebW setBackBias false
+-  In auxtel-mcm ccs-shell run: ats-fp/R00/RebW setBackBias false
 
 -  In the ccs-console ats-power tab, Turn HV Bias Off.
 
--  In atsccs1 ccs-shell run: R00/RebW powerCCDsOff
+-  In auxtel-mcm ccs-shell run: ats-fp/R00/RebW powerCCDsOff
 
 -  In the ccs-console ats-power tab, Turn DPHI Off.
 
@@ -187,7 +183,7 @@ camera, do the following steps after completing the above section.
 Note that if you then want to power up after this, you need to follow the
 “Powering up from a completely cold state” section above.
 
--  In the atshcu1 screen, run ./atsOff.py
+-  In the auxtel-hcu01 screen, run ./atsOff.py
 
 The system should now be completely off.
 
