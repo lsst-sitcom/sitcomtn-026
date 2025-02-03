@@ -60,7 +60,7 @@ Setting up the necessary connections
 
 There are multiple ways to do this, but the procedure I have been using is as follows:
 
-*  Login to auxtel-mcm, using ssh -X -Y yourname@auxtel-mcm.cp.lsst.org
+*  Login to auxtel-mcm, using ssh -X -Y yourIPAaccount@auxtel-mcm.cp.lsst.org
 
 *  Then launch the ccs-console, using ./ccs-console&
 
@@ -68,7 +68,7 @@ There are multiple ways to do this, but the procedure I have been using is as fo
 
    * The ccs-console should then appear in an X-window. You will need to launch the ats-power tab in the CCS Subsystems pull down menu. It should then look like Figure 3.
 
-   * At this point, you can view the voltages, but not make changes.  To enable changes, you need to set ats-power to a higher level.    Do this by following the menu tree as follows - CCS Subsystems - ats-power - Command and Lock Browser.  Then set the lock level (10 for example) in the Lock: field.  This will lock ats-power and you will need to unlock it later. 
+   * At this point, you can view the voltages, but not make changes.  To enable changes, you need to set ats-power to a higher level.    Do this by following the menu tree as follows - CCS Subsystems - ats-power - Command and Lock Browser.  Then set the lock level (10 for example) in the Lock: field.  This will lock ats-power and you will need to unlock it later. You will need to have sufficient CCS privileges to do this. 
      
 *  Then launch the ccs-shell, using ccs-shell.
 
@@ -107,7 +107,7 @@ What this image should look like is shown in the next section.  We complete the 
 
 * Now you need to login into auxtel-hcu01 to run the atsInit.py script:
 
-  * ssh -X -Y yourname@auxtel-hcu01.cp.lsst.org
+  * ssh -X -Y yourIPAaccount@auxtel-hcu01.cp.lsst.org
 
     * To run the init script, you need to be user ccs. This requires sudo privileges. Then run:
 
@@ -117,7 +117,7 @@ What this image should look like is shown in the next section.  We complete the 
 
     * $ ./atsInit.py
   
-This command should run, and the CCD should power up successfully. 
+This command should run, and the CCD should power up successfully. This script does a number of checks before running the ccs>ats-fp powerCCDsOn command.  The script itself is included in the "documents" directory associated with this technote.
 
 It is suggested to take some images at this point to make sure everything is connected,
 before turning on the HV bias.  Representative images are in the next section.
